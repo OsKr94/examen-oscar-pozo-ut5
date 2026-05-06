@@ -1,0 +1,14 @@
+<h2>Nuevo Personaje</h2>
+<label>Nombre</label>
+<input [(ngModel)]="nuevoPersonaje.nombre" placeholder="Ej: Mario">
+
+<label>Tipo</label>
+<input [(ngModel)]="nuevoPersonaje.tipo" placeholder="Ej: Fontanero">
+
+<label>Nivel de Poder</label>
+<input type="number" [(ngModel)]="nuevoPersonaje.nivelPoder">
+
+<div class="botones">
+  <button class="ok" (click)="guardar()">Crear</button>
+  <button class="cancel" (click)="cancelar.emit()">Cancelar</button>
+</div>

@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: mariodex-api
+    env: php
+    rootDir: MarioLaravel/MarioDex
+    buildCommand: composer install --no-interaction --prefer-dist --optimize-autoloader && php artisan config:cache && php artisan route:cache
+    startCommand: php -S 0.0.0.0:$PORT -t public
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        sync: false
+      - key: APP_KEY
+        sync: false
+      - key: DB_CONNECTION
+        sync: false
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+
+  - type: web
+    name: mariodex-web
+    env: static
+    rootDir: MarioAngular/MarioDex
+    buildCommand: npm ci && npm run build -- --configuration production
+    staticPublishPath: dist/mini-pokedex/browser
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

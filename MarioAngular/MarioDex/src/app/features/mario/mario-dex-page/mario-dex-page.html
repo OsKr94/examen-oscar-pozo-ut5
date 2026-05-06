@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>MarioDex</h1>
+  <button class="btn-add" (click)="abrirModal()">Añadir personaje</button>
+  <div class="personajes-grid">
+    <app-personaje-item *ngFor="let p of personajes" [personaje]="p" (eliminar)="eliminarPersonaje(p)"></app-personaje-item>
+  </div>
+</div>
+
+<div class="modal" *ngIf="mostrarModal">
+  <div class="modal-content">
+    <app-nuevo-personaje (cancelar)="cerrarModal()"></app-nuevo-personaje>
+  </div>
+</div>

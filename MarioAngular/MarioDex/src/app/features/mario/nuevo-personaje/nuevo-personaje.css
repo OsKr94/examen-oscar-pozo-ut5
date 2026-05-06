@@ -1,0 +1,7 @@
+h2 { margin-top: 0; }
+label { display:block; margin-top:10px; font-size:12px; opacity:.8; }
+input { width:100%; padding:8px; border:1px solid #ddd; border-radius:8px; margin-top:4px; }
+.botones { display:flex; gap:10px; margin-top:14px; }
+button { flex:1; padding:10px; border:0; border-radius:8px; cursor:pointer; }
+.ok { background:#111; color:#fff; }
+.cancel { background:#eee; }
