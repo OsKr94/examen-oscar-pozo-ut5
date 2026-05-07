@@ -26,8 +26,9 @@ export class MarioDexPageComponent implements OnInit {
   ngOnInit(): void {
     this.marioService.personajes$.subscribe(lista => this.personajes = lista);
 
-    // Carga inicial desde backend en producción; si falla, mantiene estado local.
-    this.marioApiService?.getPersonajes().subscribe({
+    // Solo llama al backend si HttpClient está disponible (producción o test de integración).
+    if (!this.marioApiService?.hasHttp()) { return; }
+    this.marioApiService.getPersonajes().subscribe({
       next: (listaApi: any[]) => {
         const personajesApi: Personaje[] = (listaApi ?? []).map((p: any) => ({
           id: p.id,

@@ -28,17 +28,16 @@ export class NuevoPersonajeComponent {
   guardar() {
     if (this.nuevoPersonaje.nombre && this.nuevoPersonaje.tipo && this.nuevoPersonaje.nivelPoder > 0) {
       const personaje = { ...this.nuevoPersonaje };
-      this.marioApiService?.addPersonaje(personaje).subscribe({
-        next: (guardado) => {
-          this.marioService.addPersonajeDirecto(guardado);
-        },
-        error: () => {
-          this.marioService.addPersonaje(personaje);
-        }
-      });
-      if (!this.marioApiService) {
+
+      if (this.marioApiService?.hasHttp()) {
+        this.marioApiService.addPersonaje(personaje).subscribe({
+          next: (guardado) => this.marioService.addPersonajeDirecto(guardado),
+          error: () => this.marioService.addPersonaje(personaje)
+        });
+      } else {
         this.marioService.addPersonaje(personaje);
       }
+
       this.nuevoPersonaje = { nombre: '', tipo: '', nivelPoder: 0 };
       this.cancelar.emit();
     }

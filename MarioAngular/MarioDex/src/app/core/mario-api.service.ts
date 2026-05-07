@@ -13,6 +13,10 @@ export class MarioApiService {
 
   constructor(@Optional() private http: HttpClient | null) {}
 
+  hasHttp(): boolean {
+    return this.http !== null;
+  }
+
   getPersonajes(): Observable<Personaje[]> {
     if (!this.http) {
       return of([]);
