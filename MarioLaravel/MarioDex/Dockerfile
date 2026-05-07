@@ -31,4 +31,4 @@ RUN mkdir -p database \
 EXPOSE 8000
 
 # Comando de inicio
-CMD php -S 0.0.0.0:${PORT:-8000} -t public
+CMD sh -c "php artisan migrate --force && php -S 0.0.0.0:${PORT:-8000} -t public"
