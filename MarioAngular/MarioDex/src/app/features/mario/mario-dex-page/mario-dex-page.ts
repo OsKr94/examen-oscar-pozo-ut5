@@ -33,7 +33,7 @@ export class MarioDexPageComponent implements OnInit {
           id: p.id,
           nombre: p.nombre,
           tipo: p.tipo,
-          nivelPoder: Number(p.nivelPoder ?? 0)
+          nivelPoder: Number(p.nivelPoder ?? p.poder ?? 0)
         }));
         this.marioService.setPersonajes(personajesApi);
       },
@@ -47,12 +47,13 @@ export class MarioDexPageComponent implements OnInit {
   cerrarModal() { this.mostrarModal = false; }
 
   eliminarPersonaje(personaje: Personaje) {
-    this.marioApiService?.deletePersonaje(personaje.id!).subscribe({
-      next: () => this.marioService.eliminarPersonaje(personaje),
-      error: () => this.marioService.eliminarPersonaje(personaje)
-    });
-    if (!this.marioApiService) {
-      this.marioService.eliminarPersonaje(personaje);
+    this.marioService.eliminarPersonaje(personaje);
+
+    if (this.marioApiService && personaje.id) {
+      this.marioApiService.deletePersonaje(personaje.id).subscribe({
+        next: () => {},
+        error: () => {}
+      });
     }
   }
 }
