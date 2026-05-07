@@ -44,10 +44,6 @@ describe('Mario Integration Tests', () => {
     const fixture = TestBed.createComponent(MarioDexPageComponent);
     fixture.detectChanges();
 
-    apiService.getPersonajes().subscribe((data) => {
-      marioService.setPersonajes(data);
-    });
-
     const req = httpMock.expectOne('/api/personajes');
     req.flush([
       { id: 11, nombre: 'Donkey Kong', tipo: 'Aliado', nivelPoder: 95 }
