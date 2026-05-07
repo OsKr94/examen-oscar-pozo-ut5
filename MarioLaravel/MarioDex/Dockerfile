@@ -2,6 +2,9 @@ FROM php:8.2-cli
 
 WORKDIR /app
 
+ENV DB_CONNECTION=sqlite
+ENV DB_DATABASE=/app/database/database.sqlite
+
 # Dependencias del sistema y extensiones PHP necesarias para Laravel
 RUN apt-get update && apt-get install -y \
 	git \
@@ -31,4 +34,4 @@ RUN mkdir -p database \
 EXPOSE 8000
 
 # Comando de inicio
-CMD sh -c "php artisan migrate --force && php -S 0.0.0.0:${PORT:-8000} -t public"
+CMD sh -c "mkdir -p /app/database && touch /app/database/database.sqlite && php artisan migrate --force && php -S 0.0.0.0:${PORT:-8000} -t public"
