@@ -27,6 +27,7 @@ jobs:
           cache-dependency-path: MarioAngular/MarioDex/package-lock.json
 
       - name: Install Chrome
+        id: setup-chrome
         uses: browser-actions/setup-chrome@v1
 
       - name: Install dependencies
@@ -34,7 +35,7 @@ jobs:
 
       - name: Run Angular tests
         env:
-          CHROME_BIN: /usr/bin/google-chrome
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
         run: npm test -- --watch=false --browsers=ChromeHeadless
 
       - name: Build Angular production
