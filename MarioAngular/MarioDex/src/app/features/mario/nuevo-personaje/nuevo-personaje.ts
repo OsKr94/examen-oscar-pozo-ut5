@@ -1,7 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MarioService, Personaje } from '../../../core/mario.service';
+import { MarioApiService } from '../../../core/mario-api.service';
 
 @Component({
   selector: 'app-nuevo-personaje',
@@ -19,11 +20,25 @@ export class NuevoPersonajeComponent {
     nivelPoder: 0
   };
 
-  constructor(private marioService: MarioService) {}
+  constructor(
+    private marioService: MarioService,
+    @Optional() private marioApiService: MarioApiService
+  ) {}
 
   guardar() {
     if (this.nuevoPersonaje.nombre && this.nuevoPersonaje.tipo && this.nuevoPersonaje.nivelPoder > 0) {
-      this.marioService.addPersonaje({ ...this.nuevoPersonaje });
+      const personaje = { ...this.nuevoPersonaje };
+      this.marioApiService?.addPersonaje(personaje).subscribe({
+        next: (guardado) => {
+          this.marioService.addPersonajeDirecto(guardado);
+        },
+        error: () => {
+          this.marioService.addPersonaje(personaje);
+        }
+      });
+      if (!this.marioApiService) {
+        this.marioService.addPersonaje(personaje);
+      }
       this.nuevoPersonaje = { nombre: '', tipo: '', nivelPoder: 0 };
       this.cancelar.emit();
     }

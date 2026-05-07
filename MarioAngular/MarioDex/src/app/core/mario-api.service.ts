@@ -16,4 +16,12 @@ export class MarioApiService {
   getPersonajes(): Observable<Personaje[]> {
     return this.http.get<Personaje[]>(this.apiUrl);
   }
+
+  addPersonaje(personaje: Personaje): Observable<Personaje> {
+    return this.http.post<Personaje>(this.apiUrl, personaje);
+  }
+
+  deletePersonaje(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

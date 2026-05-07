@@ -13,11 +13,7 @@ export interface Personaje {
 })
 export class MarioService {
 
-  private subject = new BehaviorSubject<Personaje[]>([
-    { id: 1, nombre: 'Mario', tipo: 'Héroe', nivelPoder: 100 },
-    { id: 2, nombre: 'Luigi', tipo: 'Héroe', nivelPoder: 90 },
-    { id: 3, nombre: 'Peach', tipo: 'Aliada', nivelPoder: 80 }
-  ]);
+  private subject = new BehaviorSubject<Personaje[]>([]);
 
   personajes$ = this.subject.asObservable();
 
@@ -36,6 +32,10 @@ export class MarioService {
     };
     this.subject.next([...this.subject.value, nuevo]);
     return true;
+  }
+
+  addPersonajeDirecto(personaje: Personaje): void {
+    this.subject.next([...this.subject.value, personaje]);
   }
 
   eliminarPersonaje(personaje: Personaje): void {

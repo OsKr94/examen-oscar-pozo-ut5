@@ -46,15 +46,38 @@ class PersonajeController extends Controller
 
     public function indexApi()
     {
-        return response()->json(Personaje::all());
+        return response()->json(
+            Personaje::all()->map(fn($p) => [
+                'id'         => $p->id,
+                'nombre'     => $p->nombre,
+                'tipo'       => $p->tipo,
+                'nivelPoder' => $p->poder,
+            ])
+        );
     }
 
     public function storeApi(Request $request)
     {
-        $data = $request->validate($this->rules(), $this->messages());
-        $personaje = Personaje::create($data);
+        $data = $request->validate([
+            'nombre'     => 'required|min:3',
+            'tipo'       => 'required',
+            'nivelPoder' => 'required|numeric|min:1',
+            'mundo'      => 'nullable|string',
+        ]);
 
-        return response()->json($personaje, 201);
+        $personaje = Personaje::create([
+            'nombre' => $data['nombre'],
+            'tipo'   => $data['tipo'],
+            'poder'  => $data['nivelPoder'],
+            'mundo'  => $data['mundo'] ?? 'Desconocido',
+        ]);
+
+        return response()->json([
+            'id'         => $personaje->id,
+            'nombre'     => $personaje->nombre,
+            'tipo'       => $personaje->tipo,
+            'nivelPoder' => $personaje->poder,
+        ], 201);
     }
 
     public function updateApi(Request $request, Personaje $personaje)
