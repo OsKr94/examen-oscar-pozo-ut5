@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarioService, Personaje } from '../../../core/mario.service';
 import { MarioApiService } from '../../../core/mario-api.service';
@@ -20,14 +20,14 @@ export class MarioDexPageComponent implements OnInit {
 
   constructor(
     private marioService: MarioService,
-    private marioApiService: MarioApiService
+    @Optional() private marioApiService: MarioApiService
   ) {}
 
   ngOnInit(): void {
     this.marioService.personajes$.subscribe(lista => this.personajes = lista);
 
     // Carga inicial desde backend en producción; si falla, mantiene estado local.
-    this.marioApiService.getPersonajes().subscribe({
+    this.marioApiService?.getPersonajes().subscribe({
       next: (listaApi: any[]) => {
         const personajesApi: Personaje[] = (listaApi ?? []).map((p: any) => ({
           id: p.id,
