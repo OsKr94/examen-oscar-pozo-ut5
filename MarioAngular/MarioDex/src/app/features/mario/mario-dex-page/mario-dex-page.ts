@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarioService, Personaje } from '../../../core/mario.service';
+import { MarioApiService } from '../../../core/mario-api.service';
 import { PersonajeItemComponent } from '../personaje-item/personaje-item';
 import { NuevoPersonajeComponent } from '../nuevo-personaje/nuevo-personaje';
 import { FormsModule } from '@angular/forms';
@@ -17,10 +18,29 @@ export class MarioDexPageComponent implements OnInit {
   personajes: Personaje[] = [];
   mostrarModal = false;
 
-  constructor(private marioService: MarioService) {}
+  constructor(
+    private marioService: MarioService,
+    private marioApiService: MarioApiService
+  ) {}
 
   ngOnInit(): void {
     this.marioService.personajes$.subscribe(lista => this.personajes = lista);
+
+    // Carga inicial desde backend en producción; si falla, mantiene estado local.
+    this.marioApiService.getPersonajes().subscribe({
+      next: (listaApi: any[]) => {
+        const personajesApi: Personaje[] = (listaApi ?? []).map((p: any) => ({
+          id: p.id,
+          nombre: p.nombre,
+          tipo: p.tipo,
+          nivelPoder: Number(p.nivelPoder ?? p.poder ?? 0)
+        }));
+        this.marioService.setPersonajes(personajesApi);
+      },
+      error: () => {
+        // No bloquea la app si la API no está disponible temporalmente.
+      }
+    });
   }
 
   abrirModal() { this.mostrarModal = true; }
