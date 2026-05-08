@@ -17,7 +17,8 @@ export class NuevoPersonajeComponent {
   nuevoPersonaje: Personaje = {
     nombre: '',
     tipo: '',
-    nivelPoder: 0
+    nivelPoder: 0,
+    mundo: ''
   };
 
   constructor(
@@ -38,7 +39,7 @@ export class NuevoPersonajeComponent {
         this.marioService.addPersonaje(personaje);
       }
 
-      this.nuevoPersonaje = { nombre: '', tipo: '', nivelPoder: 0 };
+      this.nuevoPersonaje = { nombre: '', tipo: '', nivelPoder: 0, mundo: '' };
       this.cancelar.emit();
     }
   }

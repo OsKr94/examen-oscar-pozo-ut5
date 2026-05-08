@@ -34,7 +34,8 @@ export class MarioDexPageComponent implements OnInit {
           id: p.id,
           nombre: p.nombre,
           tipo: p.tipo,
-          nivelPoder: Number(p.nivelPoder ?? p.poder ?? 0)
+          nivelPoder: Number(p.nivelPoder ?? p.poder ?? 0),
+          mundo: p.mundo ?? 'Desconocido'
         }));
         this.marioService.setPersonajes(personajesApi);
       },

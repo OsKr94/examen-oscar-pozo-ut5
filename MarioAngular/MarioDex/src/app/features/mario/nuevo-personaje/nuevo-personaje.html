@@ -8,6 +8,9 @@
 <label>Nivel de Poder</label>
 <input type="number" [(ngModel)]="nuevoPersonaje.nivelPoder">
 
+<label>Mundo</label>
+<input [(ngModel)]="nuevoPersonaje.mundo" placeholder="Ej: Reino Champinon">
+
 <div class="botones">
   <button class="ok" (click)="guardar()">Crear</button>
   <button class="cancel" (click)="cancelar.emit()">Cancelar</button>

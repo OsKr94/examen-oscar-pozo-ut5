@@ -6,6 +6,7 @@ export interface Personaje {
   nombre: string;
   tipo: string;
   nivelPoder: number;
+  mundo?: string;
 }
 
 @Injectable({
@@ -14,9 +15,9 @@ export interface Personaje {
 export class MarioService {
 
   private subject = new BehaviorSubject<Personaje[]>([
-    { id: 1, nombre: 'Mario', tipo: 'Heroe', nivelPoder: 100 },
-    { id: 2, nombre: 'Luigi', tipo: 'Heroe', nivelPoder: 90 },
-    { id: 3, nombre: 'Peach', tipo: 'Aliada', nivelPoder: 80 }
+    { id: 1, nombre: 'Mario', tipo: 'Heroe', nivelPoder: 100, mundo: 'Reino Champinon' },
+    { id: 2, nombre: 'Luigi', tipo: 'Heroe', nivelPoder: 90, mundo: 'Reino Champinon' },
+    { id: 3, nombre: 'Peach', tipo: 'Aliada', nivelPoder: 80, mundo: 'Reino Champinon' }
   ]);
 
   personajes$ = this.subject.asObservable();
